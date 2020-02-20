@@ -2,6 +2,7 @@ package projetoJDBC;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -35,7 +36,30 @@ public static void inserir(long cpf,  String nome, String email) throws SQLExcep
 	st.execute(sql);
 	con.commit();
 }
-
+/************************************************************************************* */
+public static void inserirPS(long cpf,  String nome, String email) throws SQLException
+/************************************************************************************* */
+{
+	 String sql = "insert into CLIENTE values (?,?,?)";
+	PreparedStatement st = con.prepareStatement(sql);
+	st.setLong(1,cpf);
+	st.setString(2, nome);
+	st.setString(3,email);
+	st.executeUpdate();
+	con.commit();
+}
+/************************************************************************************* */
+public static void inserirPS(long cpf,  String nome, String email) throws SQLException
+/************************************************************************************* */
+{
+	 String sql = "insert into CLIENTE values (?,?,?)";
+	PreparedStatement st = con.prepareStatement(sql);
+	st.setLong(1,cpf);
+	st.setString(2, nome);
+	st.setString(3,email);
+	st.executeUpdate();
+	con.commit();
+}
 /************************************************************************************* */
 public static void consultar(long cpf) throws SQLException
 /************************************************************************************* */
@@ -44,7 +68,7 @@ public static void consultar(long cpf) throws SQLException
     Statement st = con.createStatement();
     ResultSet rs = st.executeQuery(sql);
 	while (rs.next()) {
-		System.out.printf("cpf:" + rs.getInt(1) + " nome:" + rs.getString(2) + " email" + rs.getString(3)+"\n");
+		System.out.printf("cpf: " + rs.getInt(1) + " nome: " + rs.getString(2) + " email: " + rs.getString(3)+"\n");
 	}
 }
 
@@ -126,7 +150,8 @@ public static void main(final String[] args) {
 						nome = entrada.nextLine();
 						System.out.println("Informar email");
 						email= entrada.nextLine();
-						inserir(cpf,nome,email);
+						//inserir(cpf,nome,email);
+						inserirPS(cpf,nome,email);
 						break;
 
 					}
