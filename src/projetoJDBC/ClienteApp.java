@@ -1,5 +1,6 @@
 package projetoJDBC;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -48,16 +49,15 @@ public static void inserirPS(long cpf,  String nome, String email) throws SQLExc
 	st.executeUpdate();
 	con.commit();
 }
-/************************************************************************************* */
-public static void inserirPS(long cpf,  String nome, String email) throws SQLException
+public static void inserirSP(long cpf,  String nome, String email) throws SQLException
 /************************************************************************************* */
 {
-	 String sql = "insert into CLIENTE values (?,?,?)";
-	PreparedStatement st = con.prepareStatement(sql);
-	st.setLong(1,cpf);
-	st.setString(2, nome);
-	st.setString(3,email);
-	st.executeUpdate();
+	 String sql = "{call sp_inserircliente (?,?,?)}";
+	CallableStatement cs = con.prepareCall(sql);
+	cs.setLong(1,cpf);
+	cs.setString(2, nome);
+	cs.setString(3,email);
+	cs.execute();
 	con.commit();
 }
 /************************************************************************************* */
@@ -151,7 +151,8 @@ public static void main(final String[] args) {
 						System.out.println("Informar email");
 						email= entrada.nextLine();
 						//inserir(cpf,nome,email);
-						inserirPS(cpf,nome,email);
+						//inserirPS(cpf,nome,email);
+						inserirSP(cpf,nome,email);
 						break;
 
 					}
